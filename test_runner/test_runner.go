@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/codecrafters-io/tester-utils/executable"
-	"github.com/codecrafters-io/tester-utils/logger"
-	"github.com/codecrafters-io/tester-utils/test_case_harness"
-	"github.com/codecrafters-io/tester-utils/tester_definition"
+	"github.com/SystemQuest/tester-utils/executable"
+	"github.com/SystemQuest/tester-utils/logger"
+	"github.com/SystemQuest/tester-utils/test_case_harness"
+	"github.com/SystemQuest/tester-utils/tester_definition"
 )
 
 type TestRunnerStep struct {
@@ -100,7 +100,7 @@ func (r TestRunner) reportTestError(err error, isDebug bool, logger *logger.Logg
 		logger.Errorf("Test failed")
 	} else {
 		logger.Errorf("Test failed " +
-			"(try setting 'debug: true' in your codecrafters.yml to see more details)")
+			"(try setting 'debug: true' in your systemquest.yml to see more details)")
 	}
 }
 

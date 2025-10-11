@@ -8,9 +8,9 @@ import (
 	"strings"
 	"testing"
 
-	tester_utils "github.com/codecrafters-io/tester-utils"
-	"github.com/codecrafters-io/tester-utils/stdio_mocker"
-	"github.com/codecrafters-io/tester-utils/tester_definition"
+	tester_utils "github.com/SystemQuest/tester-utils"
+	"github.com/SystemQuest/tester-utils/stdio_mocker"
+	"github.com/SystemQuest/tester-utils/tester_definition"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -135,9 +135,9 @@ func runCLIStage(testerDefinition tester_definition.TesterDefinition, testCasesJ
 	}
 
 	return tester_utils.RunCLI(map[string]string{
-		"CODECRAFTERS_TEST_CASES_JSON": testCasesJson,
-		"CODECRAFTERS_REPOSITORY_DIR":  path,
-		"CODECRAFTERS_SKIP_ANTI_CHEAT": strconv.FormatBool(skipAntiCheat),
+		"SYSTEMQUEST_TEST_CASES_JSON": testCasesJson,
+		"SYSTEMQUEST_REPOSITORY_DIR":  path,
+		"SYSTEMQUEST_SKIP_ANTI_CHEAT": strconv.FormatBool(skipAntiCheat),
 	}, testerDefinition)
 }
 

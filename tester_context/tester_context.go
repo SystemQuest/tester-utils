@@ -7,12 +7,12 @@ import (
 	"os"
 	"path"
 
-	"github.com/codecrafters-io/tester-utils/internal"
-	"github.com/codecrafters-io/tester-utils/tester_definition"
+	"github.com/SystemQuest/tester-utils/internal"
+	"github.com/SystemQuest/tester-utils/tester_definition"
 	"gopkg.in/yaml.v2"
 )
 
-// TesterContextTestCase represents one element in the CODECRAFTERS_TEST_CASES environment variable
+// TesterContextTestCase represents one element in the SYSTEMQUEST_TEST_CASES environment variable
 type TesterContextTestCase struct {
 	// Slug is the slug of the test case. Example: "bind-to-port"
 	Slug string `json:"slug"`
@@ -24,7 +24,7 @@ type TesterContextTestCase struct {
 	Title string `json:"title"`
 }
 
-// TesterContext holds all flags passed in via environment variables, or from the codecrafters.yml file
+// TesterContext holds all flags passed in via environment variables, or from the systemquest.yml file
 type TesterContext struct {
 	ExecutablePath               string
 	IsDebug                      bool
@@ -42,39 +42,39 @@ func (c TesterContext) Print() {
 
 // GetContext parses flags and returns a Context object
 func GetTesterContext(env map[string]string, definition tester_definition.TesterDefinition) (TesterContext, error) {
-	submissionDir, ok := env["CODECRAFTERS_REPOSITORY_DIR"]
+	submissionDir, ok := env["SYSTEMQUEST_REPOSITORY_DIR"]
 	if !ok {
-		return TesterContext{}, fmt.Errorf("CODECRAFTERS_REPOSITORY_DIR env var not found")
+		return TesterContext{}, fmt.Errorf("SYSTEMQUEST_REPOSITORY_DIR env var not found")
 	}
 
-	testCasesJson, ok := env["CODECRAFTERS_TEST_CASES_JSON"]
+	testCasesJson, ok := env["SYSTEMQUEST_TEST_CASES_JSON"]
 	if !ok {
-		return TesterContext{}, fmt.Errorf("CODECRAFTERS_TEST_CASES_JSON env var not found")
+		return TesterContext{}, fmt.Errorf("SYSTEMQUEST_TEST_CASES_JSON env var not found")
 	}
 
 	testCases := []TesterContextTestCase{}
 	if err := json.Unmarshal([]byte(testCasesJson), &testCases); err != nil {
-		return TesterContext{}, fmt.Errorf("failed to parse CODECRAFTERS_TEST_CASES_JSON: %s", err)
+		return TesterContext{}, fmt.Errorf("failed to parse SYSTEMQUEST_TEST_CASES_JSON: %s", err)
 	}
 
 	var shouldSkipAntiCheatTestCases = false
 
-	skipAntiCheatValue, ok := env["CODECRAFTERS_SKIP_ANTI_CHEAT"]
+	skipAntiCheatValue, ok := env["SYSTEMQUEST_SKIP_ANTI_CHEAT"]
 	if ok && skipAntiCheatValue == "true" {
 		shouldSkipAntiCheatTestCases = true
 	}
 
 	for _, testCase := range testCases {
 		if testCase.Slug == "" {
-			return TesterContext{}, fmt.Errorf("CODECRAFTERS_TEST_CASES_JSON contains a test case with an empty slug")
+			return TesterContext{}, fmt.Errorf("SYSTEMQUEST_TEST_CASES_JSON contains a test case with an empty slug")
 		}
 
 		if testCase.TesterLogPrefix == "" {
-			return TesterContext{}, fmt.Errorf("CODECRAFTERS_TEST_CASES_JSON contains a test case with an empty tester_log_prefix")
+			return TesterContext{}, fmt.Errorf("SYSTEMQUEST_TEST_CASES_JSON contains a test case with an empty tester_log_prefix")
 		}
 
 		if testCase.Title == "" {
-			return TesterContext{}, fmt.Errorf("CODECRAFTERS_TEST_CASES_JSON contains a test case with an empty title")
+			return TesterContext{}, fmt.Errorf("SYSTEMQUEST_TEST_CASES_JSON contains a test case with an empty title")
 		}
 	}
 
@@ -93,7 +93,7 @@ func GetTesterContext(env map[string]string, definition tester_definition.Tester
 		}
 	}
 
-	configPath := path.Join(submissionDir, "codecrafters.yml")
+	configPath := path.Join(submissionDir, "systemquest.yml")
 
 	yamlConfig, err := readFromYAML(configPath)
 	if err != nil {
@@ -101,7 +101,7 @@ func GetTesterContext(env map[string]string, definition tester_definition.Tester
 	}
 
 	if len(testCases) == 0 {
-		return TesterContext{}, fmt.Errorf("CODECRAFTERS_TEST_CASES is empty")
+		return TesterContext{}, fmt.Errorf("SYSTEMQUEST_TEST_CASES is empty")
 	}
 
 	// TODO: test if executable exists?
@@ -120,13 +120,13 @@ func readFromYAML(configPath string) (yamlConfig, error) {
 	fileContents, err := os.ReadFile(configPath)
 	if err != nil {
 		return yamlConfig{}, &internal.UserError{
-			Message: "Can't read codecrafters.yml file in your repository. This is required to run tests.",
+			Message: "Can't read systemquest.yml file in your repository. This is required to run tests.",
 		}
 	}
 
 	if err := yaml.Unmarshal(fileContents, c); err != nil {
 		return yamlConfig{}, &internal.UserError{
-			Message: fmt.Sprintf("Error parsing codecrafters.yml: %s", err),
+			Message: fmt.Sprintf("Error parsing systemquest.yml: %s", err),
 		}
 	}
 

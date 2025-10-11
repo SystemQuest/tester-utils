@@ -13,7 +13,7 @@ import (
 	"os/exec"
 	"syscall"
 
-	"github.com/codecrafters-io/tester-utils/linewriter"
+	"github.com/SystemQuest/tester-utils/linewriter"
 )
 
 // Executable represents a program that can be executed

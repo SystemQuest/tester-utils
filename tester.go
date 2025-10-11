@@ -3,13 +3,13 @@ package tester_utils
 import (
 	"fmt"
 
-	"github.com/codecrafters-io/tester-utils/executable"
-	"github.com/codecrafters-io/tester-utils/internal"
-	"github.com/codecrafters-io/tester-utils/logger"
-	"github.com/codecrafters-io/tester-utils/random"
-	"github.com/codecrafters-io/tester-utils/test_runner"
-	"github.com/codecrafters-io/tester-utils/tester_context"
-	"github.com/codecrafters-io/tester-utils/tester_definition"
+	"github.com/SystemQuest/tester-utils/executable"
+	"github.com/SystemQuest/tester-utils/internal"
+	"github.com/SystemQuest/tester-utils/logger"
+	"github.com/SystemQuest/tester-utils/random"
+	"github.com/SystemQuest/tester-utils/test_runner"
+	"github.com/SystemQuest/tester-utils/tester_context"
+	"github.com/SystemQuest/tester-utils/tester_definition"
 )
 
 type Tester struct {
@@ -25,7 +25,7 @@ func newTester(env map[string]string, definition tester_definition.TesterDefinit
 			return Tester{}, fmt.Errorf("%s", userError.Message)
 		}
 
-		return Tester{}, fmt.Errorf("CodeCrafters internal error. Error fetching tester context: %v", err)
+		return Tester{}, fmt.Errorf("SystemQuest internal error. Error fetching tester context: %v", err)
 	}
 
 	tester := Tester{
@@ -34,7 +34,7 @@ func newTester(env map[string]string, definition tester_definition.TesterDefinit
 	}
 
 	if err := tester.validateContext(); err != nil {
-		return Tester{}, fmt.Errorf("CodeCrafters internal error. Error validating tester context: %v", err)
+		return Tester{}, fmt.Errorf("SystemQuest internal error. Error validating tester context: %v", err)
 	}
 
 	return tester, nil
